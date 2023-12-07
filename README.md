@@ -1,5 +1,4 @@
-# Udacity Data Analyst Nanodegree
-# Project: Data Modeling with Postgres 
+# Udacity Data Analyst Nanodegree <br>Project: Data Modeling with Postgres 
 ### By: Amanda Hanway, 12/5/2023 
   
 ## Project Overview:  
@@ -8,15 +7,16 @@ Sparkify is a (fictional) startup that operates a music streaming app. The app c
 
 ### JSON File Format:  
 
-Song Data Example: 
-{"num_songs": 1, "artist_id": "ARD7TVE1187B99BFB1", "artist_latitude": null, "artist_longitude": null, "artist_location": "California - LA", "artist_name": "Casual", "song_id": "SOMZWCG12A8C13C480", "title": "I Didn't Mean To", "duration": 218.93179, "year": 0}
+Song Data Example:  
+- {"num_songs": 1, "artist_id": "ARD7TVE1187B99BFB1", "artist_latitude": null, "artist_longitude": null, "artist_location": "California - LA", "artist_name": "Casual", "song_id": "SOMZWCG12A8C13C480", "title": "I Didn't Mean To", "duration": 218.93179, "year": 0}  
 
-Log Data Example:
-{"artist":null, "auth":"Logged In", "firstName":"Peter", "gender":"M", "itemInSession":0, "lastName":"Griffin", "length":null, "level":"free", "location":"Quahog, Rhode Island", "method":"GET", "page":"Home", "registration":1540919166796.0, "sessionId":38, "song":null, "status":200, "ts":1541105830796, "userAgent":"\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/36.0.1985.143 Safari\/537.36\"","userId":"39"}
+Log Data Example:  
+- {"artist":null, "auth":"Logged In", "firstName":"Peter", "gender":"M", "itemInSession":0, "lastName":"Griffin", "length":null, "level":"free", "location":"Quahog, Rhode Island", "method":"GET", "page":"Home", "registration":1540919166796.0, "sessionId":38, "song":null, "status":200, "ts":1541105830796, "userAgent":"\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/36.0.1985.143 Safari\/537.36\"","userId":"39"}  
 
 ### Database Schema Design
 
 The database consists of one fact table and four dimension tables. The fact table contains the records in the log data associated with song plays, while the dimension tables contain descriptive attributes related to the users, songs, artists, and start time. Each table has a primary key which serves as a unique identifier for each record in the table, and is used to join the dimension tables to the fact table.
+
 Together, the tables form a star schema. The star schema design provides efficient storage by reducing redundant data being stored in multiple places, and will be simple for the analytics team to understand and utilize for quick access to the data. 
 
 Fact Table:
@@ -43,7 +43,7 @@ Dimension Tables:
     - Description: timestamps of records in songplays broken down into specific units   
     - Columns: start_time, hour, day, week, month, year, weekday
 
-![Diagram](/star_schema.png?raw=true "Diagram")
+![Diagram](images/star_schema.png?raw=true "Diagram")
 
 ### ETL Pipeline
 
@@ -62,14 +62,12 @@ The pipeline is executed from the terminal as shown and described below.
         5. Insert the data into the table 
         6. Iterate for remaining files  
     
-![Processing Song Data Files](/terminal_running_song_data.png?raw=true "song data")
-
-![Processing Log Data Files](/terminal_running_log_data.png?raw=true "log data")
+![Processing Song Data Files](images/terminal_running_song_data.png?raw=true "song data")  ![Processing Log Data Files](images/terminal_running_log_data.png?raw=true "log data") 
 
 ### Example Queries & Analysis
 
-Total count of songplays by level:
-```
+**Total count of songplays by level:**  
+```sql
 select 
     level
     , count(distinct user_id) as user_count
@@ -82,10 +80,11 @@ There are fewer users on the paid level, but they consume four times as many son
 |level | user_count | song_play_count |
 | ---- | ---------- | --------------- |
 |free  | 88         | 1229            |
-|paid  | 22         | 5591            |
+|paid  | 22         | 5591            |  
 
-Total count of songplays by user:
-```
+   
+**Total count of song plays by user:**  
+```sql
 select 
     user_id
     , count(distinct songplay_id) as play_count 
@@ -93,15 +92,15 @@ from songplays
 group by user_id 
 order by count(distinct songplay_id) desc;
 ```
-The users who consumed the most song plays are user_id's 49, 80, 97, 15, and 44.
+The top five users by song plays are user_id's 49, 80, 97, 15, and 44.
 
-| user_id | play_count |
-| ------- | ---------- |
-| 49      | 689        |
-| 80      | 665        |
-| 97      | 557        |
-| 15      | 463        |
-| 44      | 397        |
+|    | user_id | play_count |
+| -- | ------- | ---------- |
+| 1. | 49      | 689        |
+| 2. | 80      | 665        |
+| 3. | 97      | 557        |
+| 4. | 15      | 463        |
+| 5. | 44      | 397        |
 
 
 
