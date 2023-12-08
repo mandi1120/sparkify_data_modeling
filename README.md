@@ -5,7 +5,16 @@
 
 Sparkify is a (fictional) startup that operates a music streaming app. The app collects data on user activity, songplays, and song metadata in JSON logs. The analytics team cannot access the app data in its current form, causing work stoppage as they are unable to perform any analyses on the app. Sparkify has hired me as a data engineer and my first project is to create a relational database schema with an ETL pipeline, making the data accessible to the analytics team and facilitating their analyses. 
 
-### JSON File Format:  
+### Files: 
+
+- [sql_queries.py](sql_queries.py)
+  - Contains the drop table, create table, and insert statements.
+- [create_tables.py](create_tables.py)
+  - Calls the sql_queries.py file to create the tables.  
+- [etl.py](etl.py)
+  - Performs the ETL pipeline to populate the tables.
+
+### JSON Data File Format:  
 
 Song Data Example:  
 - {"num_songs": 1, "artist_id": "ARD7TVE1187B99BFB1", "artist_latitude": null, "artist_longitude": null, "artist_location": "California - LA", "artist_name": "Casual", "song_id": "SOMZWCG12A8C13C480", "title": "I Didn't Mean To", "duration": 218.93179, "year": 0}  
@@ -51,8 +60,7 @@ The ETL Pipeline automates the extracting, transforming, and loading of the JSON
 
 The pipeline is executed from the terminal as shown and described below.  
 
-- The create_tables.py file is run once to create the SQL tables.  
-- Then the etl.py file is executed to perform the ETL pipeline.  
+- Once the tables have been created, the [etl.py](etl.py) file is executed to perform the ETL pipeline.  
     - It first identifies the total count of files in the directory, then processes each file individually.  
     - The general steps performed on each file are as follows:  
         1. Open the file  
